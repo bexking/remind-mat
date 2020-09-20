@@ -25,7 +25,50 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+
+    <!-- firebase stuff -->
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-messaging.js"></script>
+
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyAnjU1vOKfj-c5XG_6kaucVXvXLZHsed08",
+        authDomain: "remind-mat.firebaseapp.com",
+        databaseURL: "https://remind-mat.firebaseio.com",
+        projectId: "remind-mat",
+        storageBucket: "remind-mat.appspot.com",
+        messagingSenderId: "757163531547",
+        appId: "1:757163531547:web:e6683f22af8c16755687be"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      const messaging = firebase.messaging();
+
+      messaging
+      .requestPermission()
+      .then(() => {
+        // message.innerHTML = "Notifications allowed";
+        return messaging.getToken();
+      })
+      .then(token => {
+        // tokenString.innerHTML = "Token Is : " + token;
+        console.log(token)
+      })
+      .catch(err => {
+        console.log("No permission to send push", err);
+        errorMessage.innerHTML = errorMessage.innerHTML + "; " + err;
+      });
+
+      messaging.onMessage(payload => {
+        console.log("Message received. ", payload);
+        const { title, ...options } = payload.notification;
+      });
+
+    </script>
+
   </head>
+
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
