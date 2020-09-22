@@ -29,6 +29,8 @@ messaging.setBackgroundMessageHandler(payload => {
     //Show the notification :)
     return self.registration.showNotification(
       "Have you remembered everything?",
-      {}
+      {
+        vibrate: [300, 100, 300, 100, 600, 100, 300]
+      }
     );
   });
